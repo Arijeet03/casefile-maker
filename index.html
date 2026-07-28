@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CASEFILE — Report Builder v2.0</title>
+  <meta name="description" content="FBI Criminal Investigation Division — Casefile Report Generator">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="casefile_data.js"></script>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- HEADER                                                                 -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="header">
+  <div class="badge">▸ CASEFILE BUILDER v2.0 ◂</div>
+  <h1>C A S E F I L E</h1>
+  <p>FBI — CRIMINAL INVESTIGATION DIVISION — REPORT GENERATOR</p>
+</div>
+
+<div class="container">
+
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- AGENT INFORMATION                                                    -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <div class="card">
+    <div class="card-header">
+      <div class="icon"></div>
+      <h2>Agent Information</h2>
+    </div>
+    <div class="card-body">
+      <div class="field-row">
+        <div class="field">
+          <label>Date of Casefile</label>
+          <input type="date" id="caseDate">
+        </div>
+        <div class="field">
+          <label>Operating Agent(s) — IC Name (OOC Name)</label>
+          <input type="text" id="agentName" placeholder="e.g. Teddy Sage (David Xartz)">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- SUSPECT INFORMATION                                                  -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <div class="card">
+    <div class="card-header">
+      <div class="icon"></div>
+      <h2>Suspect Information</h2>
+    </div>
+    <div class="card-body">
+
+      <!-- Name & Phone -->
+      <div class="field-row">
+        <div class="field">
+          <label>Full Name</label>
+          <input type="text" id="suspectName" placeholder="First Middle Last">
+        </div>
+        <div class="field">
+          <label>Suspect's Phone Number</label>
+          <input type="text" id="suspectPhone" placeholder="e.g. 513511">
+        </div>
+      </div>
+
+      <!-- Accomplices -->
+      <div class="field-row full">
+        <div class="field">
+          <label>Known Accomplices</label>
+          <input type="text" id="accomplices" placeholder="Names of accomplices, or leave - for none">
+        </div>
+      </div>
+
+      <!-- Photograph of Suspect -->
+      <div class="field-row full">
+        <div class="field">
+          <label>📷 Photograph of Suspect</label>
+          <div class="paste-zone" id="zone-suspectphoto" tabindex="0">
+            <img class="paste-zone-thumb" id="thumb-suspectphoto" src="" alt="">
+            <div class="paste-zone-overlay">
+              <div class="paste-zone-icon">📷</div>
+              <div class="paste-zone-hint">CLICK / PASTE (Ctrl+V) / DROP IMAGE</div>
+              <div class="paste-zone-status" id="status-suspectphoto"></div>
+            </div>
+          </div>
+          <input type="text" class="paste-zone-url" id="url-suspectphoto" placeholder="or type URL manually…">
+        </div>
+      </div>
+
+      <!-- ─── Background Check ─────────────────────────────────────────── -->
+      <div class="field-row full" style="margin-bottom:0">
+        <div class="field">
+          <label>Background Check</label>
+          <div class="section-note">Each sub-section maps to a spoiler. Paste, drop, or click to browse images.</div>
+
+          <div class="bg-sections-wrap">
+
+            <!-- Equipment -->
+            <div>
+              <span class="bg-section-label">Equipment (spoiler)</span>
+              <div class="paste-zone" id="zone-equipment" tabindex="0">
+                <img class="paste-zone-thumb" id="thumb-equipment" src="" alt="">
+                <div class="paste-zone-overlay">
+                  <div class="paste-zone-icon">🔧</div>
+                  <div class="paste-zone-hint">PASTE / DROP / CLICK</div>
+                  <div class="paste-zone-status" id="status-equipment"></div>
+                </div>
+              </div>
+              <input type="text" class="paste-zone-url" id="url-equipment" placeholder="or type URL…">
+            </div>
+
+            <!-- Identification (up to 3) -->
+            <div>
+              <span class="bg-section-label">Identification (spoiler — up to 3 images)</span>
+              <div class="id-grid">
+                <div>
+                  <div class="paste-zone" id="zone-id1" tabindex="0">
+                    <img class="paste-zone-thumb" id="thumb-id1" src="" alt="">
+                    <div class="paste-zone-overlay">
+                      <div class="paste-zone-icon">🪪</div>
+                      <div class="paste-zone-hint">ID #1</div>
+                      <div class="paste-zone-status" id="status-id1"></div>
+                    </div>
+                  </div>
+                  <input type="text" class="paste-zone-url" id="url-id1" placeholder="URL #1…">
+                </div>
+                <div>
+                  <div class="paste-zone" id="zone-id2" tabindex="0">
+                    <img class="paste-zone-thumb" id="thumb-id2" src="" alt="">
+                    <div class="paste-zone-overlay">
+                      <div class="paste-zone-icon">🪪</div>
+                      <div class="paste-zone-hint">ID #2</div>
+                      <div class="paste-zone-status" id="status-id2"></div>
+                    </div>
+                  </div>
+                  <input type="text" class="paste-zone-url" id="url-id2" placeholder="URL #2…">
+                </div>
+                <div>
+                  <div class="paste-zone" id="zone-id3" tabindex="0">
+                    <img class="paste-zone-thumb" id="thumb-id3" src="" alt="">
+                    <div class="paste-zone-overlay">
+                      <div class="paste-zone-icon">🪪</div>
+                      <div class="paste-zone-hint">ID #3</div>
+                      <div class="paste-zone-status" id="status-id3"></div>
+                    </div>
+                  </div>
+                  <input type="text" class="paste-zone-url" id="url-id3" placeholder="URL #3…">
+                </div>
+              </div>
+            </div>
+
+            <!-- Passport (auto-generated from suspect name) -->
+            <div>
+              <span class="bg-section-label">Passport (auto-generated from suspect name)</span>
+              <div class="passport-preview" id="passportPreview">
+                <span class="passport-placeholder">Enter suspect name to auto-generate passport</span>
+              </div>
+              <input type="text" class="paste-zone-url" id="passportUrl" placeholder="Auto-generated from suspect name — editable">
+            </div>
+
+            <!-- Background Check Screenshot -->
+            <div>
+              <span class="bg-section-label">Background Check Screenshot (spoiler)</span>
+              <div class="paste-zone" id="zone-bgcheck" tabindex="0">
+                <img class="paste-zone-thumb" id="thumb-bgcheck" src="" alt="">
+                <div class="paste-zone-overlay">
+                  <div class="paste-zone-icon">🔍</div>
+                  <div class="paste-zone-hint">PASTE / DROP / CLICK</div>
+                  <div class="paste-zone-status" id="status-bgcheck"></div>
+                </div>
+              </div>
+              <input type="text" class="paste-zone-url" id="url-bgcheck" placeholder="or type URL…">
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- CHARGES                                                              -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <div class="card">
+    <div class="card-header">
+      <div class="icon"></div>
+      <h2>Charges</h2>
+    </div>
+    <div class="card-body">
+      <div class="section-note">Pick from the list ▾ or type a custom charge. Leave empty to skip.</div>
+      <div class="charges-grid" id="chargesGrid">
+        <!-- Built by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- EVIDENCE PER CHARGE                                                  -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <div class="card">
+    <div class="card-header">
+      <div class="icon"></div>
+      <h2>Evidence — Per Charge</h2>
+    </div>
+    <div class="card-body">
+      <div class="section-note">
+        Upload an image (wrapped in [img] tags), add a video link (wrapped in [video] tags), or type plain text (left as-is).
+      </div>
+      <div class="evidence-blocks" id="evidenceBlocks">
+        <!-- Built by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- FURTHER INFORMATION                                                  -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <div class="card">
+    <div class="card-header">
+      <div class="icon"></div>
+      <h2>Further Information</h2>
+    </div>
+    <div class="card-body">
+      <div class="field-row full">
+        <div class="field">
+          <label>Recommended Process</label>
+          <input type="text" id="recProcess" placeholder="e.g. Immediate Arrest / - for none">
+        </div>
+      </div>
+      <div class="field-row full" style="margin-bottom:0">
+        <div class="field">
+          <label>Official Declaration (auto-filled — edit as needed)</label>
+          <textarea id="declaration" rows="8"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- GENERATE BUTTON                                                      -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <button class="btn-generate" id="btnGenerate">▸ GENERATE CASEFILE CODE ◂</button>
+
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- OUTPUT                                                               -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <div class="output-section" id="outputSection">
+    <div class="divider">OUTPUT</div>
+    <div class="output-header">
+      <span>▸ BBCODE READY — COPY &amp; PASTE TO FORUM</span>
+      <button class="btn-copy" id="copyBtn">COPY CODE</button>
+    </div>
+    <div class="output-box" id="outputBox"></div>
+    <div class="status-bar">
+      <div class="status-dot"></div>
+      <span id="statusText">CASEFILE GENERATED</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- Scripts: order matters — image-editor → upload (depends on ImageEditor) → app (depends on both) -->
+<script src="image-editor.js"></script>
+<script src="upload.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
