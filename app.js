@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
   wireImageZones();
   wireEvidenceZones();
   initPassportAutoLink();
+  initSettings();
   initDeclaration();
   initAutoFill();
   initGenerate();
@@ -367,9 +368,13 @@ function initDeclaration() {
   function updateDeclaration() {
     const raw = agentInput.value.trim();
     const match = raw.match(/\(([^)]+)\)/);
-    const oocName = match ? match[1] : (raw || 'Agent');
+    
+    const storedOoc = localStorage.getItem('casefile_ooc_name') || '';
+    const storedRank = localStorage.getItem('casefile_rank') || 'Agent';
+    
+    const oocName = match ? match[1] : (storedOoc || raw || 'Agent');
     if (!declaration.dataset.edited) {
-      declaration.value = buildDeclaration(oocName);
+      declaration.value = buildDeclaration(oocName, storedRank);
     }
   }
 
@@ -381,8 +386,67 @@ function initDeclaration() {
   updateDeclaration();
 }
 
-function buildDeclaration(oocName) {
-  return `I ${oocName} in working for the Federal Bureau of Investigation under the Major Crimes Division as a(n) Agent hereby declare that all of the information stated in the making of this Casefile and the evidence acquired in order to bring this criminal to justice was legitimately obtained. I state that I am willing to hold any and all responsibility regarding any questions or concerns regarding this Casefile and that I fully understand the consequences I shall face if any of the aforementioned information mentioned and/or the evidence acquired, was purposely entered incorrectly. I also am fully aware of the consequences I shall face if any of the information given is disclosed to any members of the public, or any member of Law Enforcement who is not working under the Federal Bureau of Investigation.\nSigned, ${oocName}\nFederal Bureau of Investigation Head Quarters\nRodeo\nLos Santos`;
+function buildDeclaration(oocName, rank) {
+  const agentRank = rank || 'Agent';
+  return `I ${oocName} in working for the Federal Bureau of Investigation under the Major Crimes Division as a(n) ${agentRank} hereby declare that all of the information stated in the making of this Casefile and the evidence acquired in order to bring this criminal to justice was legitimately obtained. I state that I am willing to hold any and all responsibility regarding any questions or concerns regarding this Casefile and that I fully understand the consequences I shall face if any of the aforementioned information mentioned and/or the evidence acquired, was purposely entered incorrectly. I also am fully aware of the consequences I shall face if any of the information given is disclosed to any members of the public, or any member of Law Enforcement who is not working under the Federal Bureau of Investigation.\nSigned, ${oocName}\nFederal Bureau of Investigation Head Quarters\nRodeo\nLos Santos`;
+}
+
+// ── SETTINGS ────────────────────────────────────────────────────────────────
+function initSettings() {
+  const btnSettings = document.getElementById('btnSettings');
+  const modal = document.getElementById('settingsModal');
+  const overlay = document.getElementById('settingsOverlay');
+  const btnSave = document.getElementById('btnSaveSettings');
+  const btnCancel = document.getElementById('btnCancelSettings');
+  const inpOoc = document.getElementById('setOocName');
+  const inpRank = document.getElementById('setRank');
+  const agentInput = document.getElementById('agentName');
+
+  // Load saved settings
+  const storedOoc = localStorage.getItem('casefile_ooc_name') || '';
+  const storedRank = localStorage.getItem('casefile_rank') || '';
+  
+  // Auto-fill agent name if empty
+  if (storedOoc && agentInput && !agentInput.value.trim()) {
+    agentInput.value = ` (${storedOoc})`;
+  }
+
+  if (btnSettings && modal) {
+    btnSettings.addEventListener('click', () => {
+      inpOoc.value = localStorage.getItem('casefile_ooc_name') || '';
+      inpRank.value = localStorage.getItem('casefile_rank') || '';
+      modal.classList.add('open');
+    });
+
+    const close = () => modal.classList.remove('open');
+    if (overlay) overlay.addEventListener('click', close);
+    if (btnCancel) btnCancel.addEventListener('click', close);
+
+    if (btnSave) {
+      btnSave.addEventListener('click', () => {
+        const ooc = inpOoc.value.trim();
+        const rank = inpRank.value.trim();
+        
+        localStorage.setItem('casefile_ooc_name', ooc);
+        localStorage.setItem('casefile_rank', rank);
+        
+        // Auto-fill agent name if they just set an OOC name and the agent field doesn't have it
+        if (ooc && agentInput && !agentInput.value.includes(`(${ooc})`)) {
+          if (!agentInput.value.trim()) {
+            agentInput.value = ` (${ooc})`;
+          } else if (!agentInput.value.includes('(')) {
+            agentInput.value = `${agentInput.value.trim()} (${ooc})`;
+          }
+        }
+        
+        // Trigger declaration update
+        const ev = new Event('input');
+        if (agentInput) agentInput.dispatchEvent(ev);
+        
+        close();
+      });
+    }
+  }
 }
 
 // ── AUTO-FILL FROM casefile_data.js ─────────────────────────────────────────
@@ -569,6 +633,11 @@ Background Check:
 [INDENT][I]${declaration}[/INDENT][/I]`;
 
   document.getElementById('outputBox').textContent = code;
+  
+  const title = `${agentName} - ${caseDate} - ${suspectName}`;
+  const titleBox = document.getElementById('titleBox');
+  if (titleBox) titleBox.textContent = title;
+
   const section = document.getElementById('outputSection');
   section.classList.add('show');
 
@@ -583,6 +652,9 @@ Background Check:
 function initCopy() {
   const btn = document.getElementById('copyBtn');
   if (btn) btn.addEventListener('click', copyCode);
+  
+  const titleBtn = document.getElementById('copyTitleBtn');
+  if (titleBtn) titleBtn.addEventListener('click', copyTitle);
 }
 
 function copyCode() {
@@ -595,5 +667,22 @@ function copyCode() {
       btn.textContent = 'COPY CODE';
       btn.classList.remove('copied');
     }, 2500);
+  });
+}
+
+function copyTitle() {
+  const titleBox = document.getElementById('titleBox');
+  if (!titleBox) return;
+  const title = titleBox.textContent;
+  navigator.clipboard.writeText(title).then(() => {
+    const btn = document.getElementById('copyTitleBtn');
+    if (btn) {
+      btn.textContent = '✓ COPIED!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'COPY TITLE';
+        btn.classList.remove('copied');
+      }, 2500);
+    }
   });
 }

@@ -446,6 +446,11 @@ const ImageEditor = (() => {
 
   // ── Done / Cancel ──────────────────────────────────────────────────────
   function done() {
+    // Auto-apply any pending selection before completing
+    if (hasSelection && activeTool) {
+      applyAction();
+    }
+
     // Export work canvas as blob
     workCanvas.toBlob((blob) => {
       closeModal();
