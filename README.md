@@ -11,7 +11,7 @@ FBI Criminal Investigation Division — BBCode Report Generator for forum casefi
 - **Passport auto-link** — generates signature URL from suspect name (editable)
 - **Evidence per charge** — image (`[img]`), video (`[video]`), and plain text
 - **BBCode generation** — one-click copy to forum
-- **Auto-fill** from Lua game script (`casefile_data.js`)
+<!-- - **Auto-fill** from Lua game script (`casefile_data.js`) -->
 
 ## Quick Start
 
@@ -38,3 +38,16 @@ python server.py
 
 - Python 3.x with `requests` (`pip install requests`)
 - Modern browser (Chrome/Edge/Firefox)
+
+## ⚠️ Upload Disclaimer
+
+Please note that the built-in image upload tool (`uploadimgur` / `upload.js` via local proxy) uploads your images **publicly and exclusively to Imgur** via their API. 
+- You do not need an Imgur account to use this feature, as it utilizes an anonymous API upload.
+- Any image cropped, blurred, or pasted into the tool is transmitted to Imgur's servers and a public link is generated.
+- Ensure that any sensitive or highly classified real-world information is blurred or omitted before uploading.
+
+## Upcoming Ideas
+
+- Direct posting to forums from the app interface
+- Charge stacking checks and validations
+- Various Quality of Life (QoL) updates

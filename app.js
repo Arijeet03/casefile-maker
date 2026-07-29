@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initPassportAutoLink();
   initSettings();
   initDeclaration();
-  initAutoFill();
+  // initAutoFill();
   initGenerate();
   initCopy();
 });
@@ -450,6 +450,8 @@ function initSettings() {
 }
 
 // ── AUTO-FILL FROM casefile_data.js ─────────────────────────────────────────
+/*
+/*
 function initAutoFill() {
   const name  = (typeof window.CASEFILE_NAME  !== 'undefined') ? window.CASEFILE_NAME  : '';
   const phone = (typeof window.CASEFILE_PHONE !== 'undefined') ? window.CASEFILE_PHONE : '';
@@ -502,6 +504,7 @@ function initAutoFill() {
     if (suspectInput) suspectInput.dispatchEvent(new Event('input'));
   }, 400);
 }
+*/
 
 // ── TOAST ───────────────────────────────────────────────────────────────────
 function showToast(message) {

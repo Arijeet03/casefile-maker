@@ -19,3 +19,6 @@ All notable changes to the Casefile Generator project will be documented in this
 
 ### Fixed
 - **Image Editor UX Bug**: Fixed an issue in `image-editor.js` where clicking the "✓ Done" button immediately after drawing a crop or blur selection would skip the pending action and upload the unedited image. The editor now automatically applies the pending crop/blur action before finalizing the image.
+
+### Removed
+- **Lua Auto-Fill Feature**: Removed the `casefile_data.js` Lua game integration, as data entry is now solely intended to be done within the browser interface.
